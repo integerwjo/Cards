@@ -114,3 +114,18 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
 }
 
 
+// AI
+// AIM-> Understanding the environments
+// --------------------------------------
+
+// Intelligent agents
+// Types of environmets
+// 1. static environment -> remains unchanged excepy by the performance of actions by the agents
+// 2. Dynamic env (xtics and how we can utilise it) -> One that has other processes operating on it
+// compare and contrast static and dynamic environments
+// 3. Deterministic(action has a single guaranteed state) and non deterministic env
+// 4. descrete and continous env
+// 5. Episodic(the performance of an agent is dependent on a number of discrete(not contionous)) episodes and sequential
+// 6. Known vs unknown
+// 7. Accessible 
+

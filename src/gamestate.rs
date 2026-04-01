@@ -26,7 +26,7 @@ pub struct  GameState{
 }
 
 impl GameState {
-   
+    /// Creates a new instance of the state with the game begins in
     pub fn new() -> Self {
         let mut cards = Deck::create_deck();
         cardmodule::shuffle_cards(&mut cards);
@@ -56,7 +56,33 @@ impl GameState {
         }
 
         None
-}
+    }
+    pub fn pick(no_of_cards_to_pick: usize, gamestate: &mut Self) {
+            let current_player: &mut Player = {
+                    if gamestate.human_player.is_turn_to_play == true {
+                        &mut gamestate.human_player
+                    } else {
+                       &mut gamestate.computer_player
+                }
+            };
+            assert!(no_of_cards_to_pick > current_player.cards_in_hand.len());
+
+            for _ in 0..no_of_cards_to_pick {
+                current_player.cards_in_hand.push(gamestate.deck.cards.pop().unwrap())
+            }
+
+        }
+
+    pub fn current_player(gamestate: &mut Self) -> &Player{
+        if gamestate.human_player.is_turn_to_play == true {
+            &gamestate.human_player
+        } else {
+            &gamestate.computer_player
+        }
+    }
+
+
+
 
     
     
@@ -94,6 +120,8 @@ pub fn pick_top_card(deck: &mut Deck) -> Option<Card> {
         None
     }
 }
+
+
 
 
 
