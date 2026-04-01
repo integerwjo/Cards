@@ -12,7 +12,7 @@ pub mod gamestate;
 pub use rand::seq::SliceRandom;
 pub use rand::thread_rng;
 pub use crate::cardmodule::{Card, Deck};
-use crate::gamestate::NewGameState;
+use crate::gamestate::GameState;
 pub use gamestate::{ Number, Types };
 
 /// This represents a player instance or an instance of the model the human player plays with
@@ -27,14 +27,11 @@ impl Player{
            todo!()
         
      }
-Player
       
      fn pick(n: u8, player: &mut Self) {
           assert!(n > 0);
           for _ in 0..n {
-               if let Some(card_in_hand) = player.cards_in_hand {
-                    todo!()
-               }
+               todo!()
           }
      }
 
@@ -48,9 +45,8 @@ Player
 
 
 fn main() {
-     let mut gamestate =  gamestate::GameState::initialize_game_state();
+     let mut gamestate =  gamestate::GameState::new();
      print!("Top card is: ");
-     gamestate.get_top_card().unwrap().display();
      player::player_turn(&mut gamestate);
 
 }

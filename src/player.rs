@@ -1,3 +1,5 @@
+//! This represents a generic player which can be either a computer player or a human player
+
 use super::{Card, gamestate};
 use std::io;
 
@@ -33,12 +35,12 @@ pub fn player_places_a_card() -> usize {
 
 /// Player draws one card from the deck
 pub fn player_picks_a_card(game_state: &mut gamestate::GameState) {
-    match game_state.deck.pop() {
+    match game_state.deck.cards.pop() {
         Some(card) => {
             println!("Player picked a card:");
             card.display();
-            game_state.player_hand.push(card);
-            print_player_cards(&game_state.player_hand);
+            game_state.human_player.cards_in_hand.push(card);
+            print_player_cards(&game_state.human_player.cards_in_hand);
         }
         None => {
             println!("No more cards to pick!");
@@ -48,20 +50,20 @@ pub fn player_picks_a_card(game_state: &mut gamestate::GameState) {
 
 /// Checks if a move is valid
 pub fn check_if_player_move_is_valid(game_state: &gamestate::GameState, index: usize) -> bool {
-    if index > game_state.player_hand.len() {
+    if index > game_state.human_player.cards_in_hand.len() {
         println!("Invalid index!");
         return false;
     }
 
-    let _top_card = game_state.get_top_card();
-    println!("Top card on the pile:");
+    let top_card = game_state.top_card;
+    println!("Top card on the pile: {:?}", top_card);
     false
     
 }
 
 /// Handles the player turn
 pub fn player_turn(game_state: &mut gamestate::GameState) {
-    print_player_cards(&game_state.player_hand);
+    print_player_cards(&game_state.human_player.cards_in_hand);
 
     println!("It's your turn! What would you like to do?");
     println!("1. Place cards");
@@ -94,10 +96,10 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
                 if check_if_player_move_is_valid(game_state, index) {
                     println!("Valid move! Placing card.");
                     // Remove the card from the player's hand and place it on the pile
-                    let card = game_state.player_hand.remove(index);
-                    game_state.pile.push(card);
-                    print_player_cards(&game_state.player_hand);
-                } else {
+                    game_state.human_player.cards_in_hand.remove(index);
+                    print_player_cards(&game_state.human_player.cards_in_hand);
+                }
+                else {
                     println!("Invalid move!");
                 }
             }

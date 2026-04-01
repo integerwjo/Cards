@@ -29,38 +29,22 @@ impl GameState {
    
     pub fn new() -> Self {
         let mut cards = Deck::create_deck();
-        cards = cards.shuffle_cards();
+        cardmodule::shuffle_cards(&mut cards);
 
         GameState {
             human_player: Player {
-                cards_in_hand: assign_human_cards(),
+                cards_in_hand: assign_cards(&mut cards),
                 is_turn_to_play: true,
             },
             computer_player: Player {
-                cards_in_hand: assign_computer_cards(),
+                cards_in_hand: assign_cards(&mut cards),
                 is_turn_to_play: false,
             },
-            top_card: place_first_top_card(),
-            deck: Deck { cards },
+            top_card: place_initial_top_card(&mut cards),
+            deck: cards,
         }
     }
-
-
     
-    pub fn place_first_top_card(&mut self) -> Card {
-        self.deck.cards.pop().unwrap()
-    }
-
-
-    pub fn set_top_card(&mut self, card: Card) {
-        self.top_card = card;
-    }
-
-    /// Get the current top card 
-    /* 
-    pub fn get_top_card(card: &self) -> Option<Card> {
-        Some(self.top_card)
-    } */
 
     pub fn check_win(game_state: &Self) -> Option<&str> {
         if game_state.human_player.cards_in_hand.is_empty() {
@@ -73,22 +57,42 @@ impl GameState {
 
         None
 }
+
+    
+    
+}
+
+pub fn place_first_top_card(deck: &mut Deck) -> Card {
+        deck.cards.pop().unwrap()
+    }
+
+
+    pub fn place_initial_top_card(deck: &mut Deck) -> Card {
+        deck.cards.pop().unwrap()
+    }
+
+    /// Get the current top card 
+    /* 
+    pub fn get_top_card(card: &self) -> Option<Card> {
+        Some(self.top_card)
+    } */
+
+
+pub fn assign_cards(deck: &mut Deck) -> Vec<Card> {
+        let mut cards_in_hand = Vec::new();
+        for _ in 0..4 {
+            cards_in_hand.push(deck.cards.pop().unwrap());
+        }
+        cards_in_hand
 }
 
 
-pub fn assign_human_cards(gamestate: &mut GameState) -> Vec<Card> {
-        for _ in 0..4 {
-            gamestate.human_player.cards_in_hand.push(gamestate.deck.cards.pop().unwrap());
-        }
-        gamestate.human_player.cards_in_hand.clone()
-}
-
-pub fn assign_computer_cards(gamestate: &mut GameState) -> Vec<Card> {
-        for _ in 0..4 {
-            gamestate.computer_player.cards_in_hand.push(gamestate.deck.cards.pop().unwrap());
-        }
-        gamestate.computer_player.cards_in_hand.clone()
-
+pub fn pick_top_card(deck: &mut Deck) -> Option<Card> {
+    if let Some(card) = deck.cards.pop() {
+        Some(card)
+    } else {
+        None
+    }
 }
 
 

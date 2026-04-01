@@ -175,12 +175,7 @@ impl Deck {
         Deck { cards }
     }
   
-    /// Shuffle the deck
-    pub fn shuffle_cards(&mut self)  {
-        let mut rng = thread_rng();
-        self.cards.shuffle(&mut rng);
 
-    }
 
     /// Display deck (debugging)
     pub fn display_deck(&self) {
@@ -193,11 +188,19 @@ impl Deck {
     pub fn get_card_on_top(&mut self) -> Option<Card> {
         self.cards.pop()  
     }
+
+
+
 }
 
+pub fn shuffle_cards(deck: &mut Deck) {
+        let mut rng = thread_rng();
+        deck.cards.shuffle(&mut rng);
+        
 
+    }
 pub fn does_other_player_have_that_card(game_state: &gamestate::GameState, card: &Card) -> bool {
-    game_state.player_hand.iter().any(|c| c.type_of_card == card.type_of_card)
+    game_state.human_player.cards_in_hand.iter().any(|c| c.type_of_card == card.type_of_card)
 }
 
 // i want this counter or pick fn implemeted for picking both 2 and 3 cards
@@ -223,8 +226,8 @@ pub fn counter_or_pick_two_or_three(game_state: &mut gamestate::GameState, card:
                 _ => 0,
             };
             for _ in 0..cards_to_draw {
-                if let Some(new_card) = game_state.get_top_card() {
-                    game_state.player_hand.push(new_card);
+                if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
+                    game_state.human_player.cards_in_hand.push(new_card);
                 }
             }
         }
@@ -236,8 +239,8 @@ pub fn counter_or_pick_two_or_three(game_state: &mut gamestate::GameState, card:
                 _ => 0,
             };
             for _ in 0..cards_to_draw {
-                if let Some(new_card) = game_state.get_top_card() {
-                    game_state.player_hand.push(new_card);
+                if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
+                    game_state.human_player.cards_in_hand.push(new_card);
                 }
             }
         }
@@ -261,14 +264,14 @@ fn question(game_state: &mut gamestate::GameState) {
                     println!("Correct answer! No cards drawn.");
                 }
                 2 => {
-                    if let Some(new_card) = game_state.draw_card() {
-                        game_state.player_hand.push(new_card);
+                    if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
+                        game_state.human_player.cards_in_hand.push(new_card);
                     }
                 }
                 _ => {
                     println!("Invalid choice, defaulting to pick.");
-                    if let Some(new_card) = game_state.draw_card() {
-                        game_state.player_hand.push(new_card);
+                    if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
+                        game_state.human_player.cards_in_hand.push(new_card);
                     }
                 }
             }
