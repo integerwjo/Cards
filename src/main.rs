@@ -11,18 +11,46 @@ pub mod gamestate;
 
 pub use rand::seq::SliceRandom;
 pub use rand::thread_rng;
-pub use crate::cardmodule::Card;
+pub use crate::cardmodule::{Card, Deck};
+use crate::gamestate::NewGameState;
 pub use gamestate::{ Number, Types };
+
+/// This represents a player instance or an instance of the model the human player plays with
+pub struct Player {
+     pub cards_in_hand: Vec<Card>,
+     pub is_turn_to_play: bool
+}
+
+impl Player{
+     fn place_one_or_multiple_cards(no_of_cards_to_place: u8) {
+
+           todo!()
+        
+     }
+Player
+      
+     fn pick(n: u8, player: &mut Self) {
+          assert!(n > 0);
+          for _ in 0..n {
+               if let Some(card_in_hand) = player.cards_in_hand {
+                    todo!()
+               }
+          }
+     }
+
+     fn can_finish() {
+          todo!()
+      
+     }
+
+
+}
 
 
 fn main() {
      let mut gamestate =  gamestate::GameState::initialize_game_state();
      print!("Top card is: ");
-     gamestate.get_top_card().display();
+     gamestate.get_top_card().unwrap().display();
      player::player_turn(&mut gamestate);
-     
-
-
- 
 
 }

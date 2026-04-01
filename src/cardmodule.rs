@@ -5,11 +5,10 @@ use rand::thread_rng;
 // This trait will assign special xtics to special cards
 trait CardEffect {
     fn apply_effect(&self, game_state: &mut gamestate::GameState);
+    fn counter_effect (&self, game_state: &mut gamestate::GameState); 
 }
 
-trait CounterEffect {
-    fn counter_effect (&self, game_state: &mut gamestate::GameState);   
-}
+
 
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -96,15 +95,14 @@ impl CardEffect for Card {
 
         }
     }
-}
 
 
-
-impl CounterEffect for Card {
+    /// This fuction will 'respond' to the effects of the top card
     fn counter_effect(&self, game_state: &mut gamestate::GameState) {
              match self.number {
             Number::Jump => {
                 println!("Countering the jump card.");
+
                 // Implement logic to skip computer's turn
             }
             Number::Question => {
@@ -143,6 +141,9 @@ impl CounterEffect for Card {
 }
 
 
+
+
+
 pub struct Deck {
     pub cards: Vec<Card>,
 }
@@ -170,14 +171,15 @@ impl Deck {
                 cards.push(Card::new(n.clone(), t.clone()));
             }
         }
-
+        
         Deck { cards }
     }
-
+  
     /// Shuffle the deck
-    pub fn shuffle_cards(&mut self) {
+    pub fn shuffle_cards(&mut self)  {
         let mut rng = thread_rng();
         self.cards.shuffle(&mut rng);
+
     }
 
     /// Display deck (debugging)
@@ -189,9 +191,10 @@ impl Deck {
 
     /// Draw top card
     pub fn get_card_on_top(&mut self) -> Option<Card> {
-        self.cards.pop()
+        self.cards.pop()  
     }
 }
+
 
 pub fn does_other_player_have_that_card(game_state: &gamestate::GameState, card: &Card) -> bool {
     game_state.player_hand.iter().any(|c| c.type_of_card == card.type_of_card)
