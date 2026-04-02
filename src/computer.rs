@@ -1,3 +1,5 @@
+//! The computer functions are defined here
+//! 
 use super::{Card, GameState};
 
 
@@ -10,4 +12,6 @@ pub fn print_computer_cards(computer_cards: &Vec<Card>) {
     }
 }
 
-
+pub fn computer_turn(gamestate: &mut GameState) {
+    
+}

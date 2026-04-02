@@ -1,6 +1,8 @@
 //! This represents a generic player which can be either a computer player or a human player
 
-use super::{Card, gamestate};
+use crate::gamestate::GameState;
+
+use super::{Card, gamestate, Number};
 use std::io;
 
 /// Assign cards to player FROM the shared deck
@@ -49,24 +51,14 @@ pub fn player_picks_a_card(game_state: &mut gamestate::GameState) {
 }
 
 /// Checks if a move is valid
-pub fn check_if_player_move_is_valid(game_state: &gamestate::GameState, index: usize) -> bool {
-    if index > game_state.human_player.cards_in_hand.len() {
-        println!("Invalid index!");
-        return false;
-    }
 
-    let top_card = game_state.top_card;
-    println!("Top card on the pile: {:?}", top_card);
-    false
-    
-}
 
 /// Handles the player turn
 pub fn player_turn(game_state: &mut gamestate::GameState) {
     print_player_cards(&game_state.human_player.cards_in_hand);
 
     println!("It's your turn! What would you like to do?");
-    println!("1. Place cards");
+    println!("1. Place card(s)");
     println!("2. Pick a card");
 
     let mut input = String::new();
@@ -93,8 +85,8 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
                     }
                 };
 
-                if check_if_player_move_is_valid(game_state, index) {
-                    println!("Valid move! Placing card.");
+                if check_if_player_move_is_valid(&game_state.human_player.cards_in_hand[index], game_state) {
+                    println!("Valid move! Card placed");
                     // Remove the card from the player's hand and place it on the pile
                     game_state.human_player.cards_in_hand.remove(index);
                     print_player_cards(&game_state.human_player.cards_in_hand);
@@ -114,6 +106,20 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
 }
 
 
+/// This function takes a card and checks if the card can be placed as the top card
+/// If it can, then the fn places the card as the top card
+/// else it prints an error msg
+
+fn check_if_player_move_is_valid(card: &Card, gamestate: &GameState) -> bool  {
+    if (card.type_of_card == gamestate.top_card.type_of_card) || 
+       (card.number == gamestate.top_card.number) ||
+       (card.number == Number::Ace) {
+            true
+       } else {
+            false
+
+       }
+}
 // AI
 // AIM-> Understanding the environments
 // --------------------------------------

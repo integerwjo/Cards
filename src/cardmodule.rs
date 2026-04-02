@@ -1,3 +1,4 @@
+//! Contains the definition of a card and associated methods and traits
 use super::{Number, Types, gamestate};
 use rand::seq::SliceRandom;
 use rand::thread_rng;
@@ -217,7 +218,7 @@ pub fn counter_or_pick_two_or_three(game_state: &mut gamestate::GameState, card:
 
     match choice {
         1 => {
-            card.counter_effect(game_state);
+            todo!()
         }
         2 => {
             let cards_to_draw = match card.number {
@@ -225,12 +226,9 @@ pub fn counter_or_pick_two_or_three(game_state: &mut gamestate::GameState, card:
                 Number::Three => 3,
                 _ => 0,
             };
-            for _ in 0..cards_to_draw {
-                if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
-                    game_state.human_player.cards_in_hand.push(new_card);
-                }
-            }
+             gamestate::pick(cards_to_draw, game_state);
         }
+
         _ => {
             println!("Invalid choice, defaulting to pick.");
             let cards_to_draw = match card.number {
@@ -238,11 +236,7 @@ pub fn counter_or_pick_two_or_three(game_state: &mut gamestate::GameState, card:
                 Number::Three => 3,
                 _ => 0,
             };
-            for _ in 0..cards_to_draw {
-                if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
-                    game_state.human_player.cards_in_hand.push(new_card);
-                }
-            }
+            gamestate::pick(cards_to_draw, game_state);
         }
     }
 }
@@ -264,15 +258,11 @@ fn question(game_state: &mut gamestate::GameState) {
                     println!("Correct answer! No cards drawn.");
                 }
                 2 => {
-                    if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
-                        game_state.human_player.cards_in_hand.push(new_card);
-                    }
+                    gamestate::pick(1, game_state);
                 }
                 _ => {
                     println!("Invalid choice, defaulting to pick.");
-                    if let Some(new_card) = gamestate::pick_top_card(&mut game_state.deck ) {
-                        game_state.human_player.cards_in_hand.push(new_card);
-                    }
+                    gamestate::pick(1, game_state);
                 }
             }
 }

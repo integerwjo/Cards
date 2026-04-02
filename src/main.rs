@@ -23,22 +23,9 @@ pub struct Player {
 }
 
 impl Player{
-     fn place_one_or_multiple_cards(no_of_cards_to_place: usize, player: &mut Self) {
 
-        
-     }
-      
-     fn pick(no_of_cards_to_pick: usize, player: &mut Self, gamestate: &mut GameState) {
-          
-          assert!(no_of_cards_to_pick > player.cards_in_hand.len());
 
-          for _ in 0..no_of_cards_to_pick {
-              player.cards_in_hand.push(gamestate.deck.cards.pop().unwrap())
-          }
-
-     }
-
-     fn can_finish() {
+     fn can_finish(player: &Self) -> bool {
           todo!()
       
      }
@@ -49,8 +36,9 @@ impl Player{
 
 fn main() {
      let mut game_state =  gamestate::GameState::new();
-     print!("Top card is: ");
+     print!("Top card is: {:?}", game_state.top_card);
      player::player_turn(&mut game_state);
+     computer::computer_turn(&mut game_state);
      
      
      
