@@ -6,48 +6,27 @@
 
 pub mod cardmodule;
 pub mod computer;
-pub mod player;
+pub mod human;
 pub mod gamestate;
+pub mod player;
 
 pub use rand::seq::SliceRandom;
 pub use rand::thread_rng;
 pub use crate::cardmodule::{Card, Deck, CardEffect};
 use crate::gamestate::{GameState};
 pub use gamestate::{ Number, Types };
+pub use player::Player;
 
 /// This represents a player instance or an instance of the model the human player plays with
-#[derive(Debug)]
-pub struct Player {
-     pub cards_in_hand: Vec<Card>,
-     pub is_turn_to_play: bool
-}
-
-impl Player{
-
-
-     fn can_finish(_player: &Self) -> bool {
-          todo!()
-      
-     }
-
-
-}
-
-pub fn print_top_card(gamestate: &gamestate::GameState) {
-     println!("\t\t\t\t-----------------------TOP CARD----------------------------");
-     println!("\t\t\t\t  Top Card: {:?}", gamestate.top_card);
-     println!("\t\t\t\t-----------------------------------------------------------");
-}
-
 
 fn main() {
      let mut game_state =  gamestate::GameState::new();
-     print_top_card(&game_state);
+     cardmodule::print_top_card(&game_state);
      loop 
      {         
-          player::player_turn(&mut game_state);
+          human::player_turn(&mut game_state);
           computer::computer_turn(&mut game_state);
-          print_top_card(&game_state);
+          cardmodule::print_top_card(&game_state);
          
 
      }

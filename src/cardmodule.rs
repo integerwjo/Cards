@@ -249,3 +249,11 @@ fn jump() {
 
     
 }
+
+
+pub fn print_top_card(gamestate: &gamestate::GameState) {
+     println!("\t\t\t\t-----------------------TOP CARD----------------------------");
+     println!("\t\t\t\t  Top Card: {:?}", gamestate.top_card);
+     println!("\t\t\t\t-----------------------------------------------------------");
+}
+
