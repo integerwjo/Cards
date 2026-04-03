@@ -33,13 +33,8 @@ impl Player{
 pub fn can_finish(player: &Player) -> bool {
         if player.cards_in_hand.len() == 1 {
             match player.cards_in_hand[0].number {
-                Number::Four => true,
-                Number::Five => true,
-                Number::Six => true,
-                Number::Seven => true,
-                Number::Eight => true,
-                Number::Nine => true,
-                Number::Ten => true,
+                Number::Four | Number::Five | Number::Six | Number::Seven |
+                Number::Eight | Number::Nine | Number::Ten => true,
                 _ => false
             }
         } else {
