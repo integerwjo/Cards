@@ -1,5 +1,5 @@
 //! The state in which the game is in, throughout
-use super::{Card, cardmodule, player, computer, gamestate, Player};
+use super::{Card, cardmodule, Player};
 use crate::cardmodule::Deck;
 
 /// represents all the types of variants a card is
@@ -60,7 +60,7 @@ impl GameState {
     }
    
     pub fn current_player(gamestate: &mut Self) -> &Player{
-        if gamestate.human_player.is_turn_to_play == true {
+        if gamestate.human_player.is_turn_to_play {
             &gamestate.human_player
         } else {
             &gamestate.computer_player
@@ -73,11 +73,6 @@ pub fn place_initial_top_card(deck: &mut Deck) -> Card {
         deck.cards.pop().unwrap()
 }
 
-    /// Get the current top card 
-    /* 
-    pub fn get_top_card(card: &self) -> Option<Card> {
-        Some(self.top_card)
-    } */
 
 
 pub fn assign_cards(deck: &mut Deck) -> Vec<Card> {
@@ -91,7 +86,7 @@ pub fn assign_cards(deck: &mut Deck) -> Vec<Card> {
 
  pub fn pick(no_of_cards_to_pick: usize, gamestate: &mut GameState) {
             let current_player: &mut Player = {
-                    if gamestate.human_player.is_turn_to_play == true {
+                    if gamestate.human_player.is_turn_to_play {
                         &mut gamestate.human_player
                     } else {
                        &mut gamestate.computer_player

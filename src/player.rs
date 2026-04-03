@@ -19,16 +19,18 @@ pub fn assign_player_cards(deck: &mut Vec<Card>) -> Vec<Card> {
 }
 
 /// Prints all the cards assigned to a player
-pub fn print_player_cards(player_cards: &Vec<Card>) {
-    println!("Player's Cards:");
+pub fn print_player_cards(player_cards: &[Card]) {
+    println!("\nYour Cards:");
+    println!("---------------------------------");
     for (i, card) in player_cards.iter().enumerate() {
         print!("index ({}): ", i);
         card.display();
     }
+
 }
 
 /// Handle player move input
-pub fn player_places_a_card() -> usize {
+pub fn no_of_cards_player_is_placing() -> usize {
     println!("How many cards are you placing?");
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Failed to read input");
@@ -66,7 +68,7 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
 
     match input.trim() {
         "1" => {
-            let num_cards = player_places_a_card();
+            let num_cards = no_of_cards_player_is_placing();
             println!("You chose to place {} cards.", num_cards);
 
             for _ in 0..num_cards {
@@ -88,6 +90,7 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
                 if check_if_player_move_is_valid(&game_state.human_player.cards_in_hand[index], game_state) {
                     println!("Valid move! Card placed");
                     // Remove the card from the player's hand and place it on the pile
+                    game_state.top_card = game_state.human_player.cards_in_hand[index];
                     game_state.human_player.cards_in_hand.remove(index);
                     print_player_cards(&game_state.human_player.cards_in_hand);
                 }
@@ -112,8 +115,7 @@ pub fn player_turn(game_state: &mut gamestate::GameState) {
 
 fn check_if_player_move_is_valid(card: &Card, gamestate: &GameState) -> bool  {
     if (card.type_of_card == gamestate.top_card.type_of_card) || 
-       (card.number == gamestate.top_card.number) ||
-       (card.number == Number::Ace) {
+       (card.number == gamestate.top_card.number) || (card.number == Number::Ace) {
             true
        } else {
             false

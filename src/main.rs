@@ -11,7 +11,7 @@ pub mod gamestate;
 
 pub use rand::seq::SliceRandom;
 pub use rand::thread_rng;
-pub use crate::cardmodule::{Card, Deck};
+pub use crate::cardmodule::{Card, Deck, CardEffect};
 use crate::gamestate::{GameState};
 pub use gamestate::{ Number, Types };
 
@@ -25,7 +25,7 @@ pub struct Player {
 impl Player{
 
 
-     fn can_finish(player: &Self) -> bool {
+     fn can_finish(_player: &Self) -> bool {
           todo!()
       
      }
@@ -33,15 +33,24 @@ impl Player{
 
 }
 
+pub fn print_top_card(gamestate: &gamestate::GameState) {
+     println!("\t\t\t\t-----------------------TOP CARD----------------------------");
+     println!("\t\t\t\t  Top Card: {:?}", gamestate.top_card);
+     println!("\t\t\t\t-----------------------------------------------------------");
+}
+
 
 fn main() {
      let mut game_state =  gamestate::GameState::new();
-     print!("Top card is: {:?}", game_state.top_card);
-     player::player_turn(&mut game_state);
-     computer::computer_turn(&mut game_state);
-     
-     
-     
-     
+     print_top_card(&game_state);
+     loop 
+     {         
+          player::player_turn(&mut game_state);
+          computer::computer_turn(&mut game_state);
+          print_top_card(&game_state);
+         
+
+     }
+
 
 }

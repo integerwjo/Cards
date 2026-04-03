@@ -1,12 +1,14 @@
 //! Contains the definition of a card and associated methods and traits
+use crate::gamestate::GameState;
+
 use super::{Number, Types, gamestate};
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 
 // This trait will assign special xtics to special cards
-trait CardEffect {
-    fn apply_effect(&self, game_state: &mut gamestate::GameState);
-    fn counter_effect (&self, game_state: &mut gamestate::GameState); 
+pub trait CardEffect {
+    fn apply_effect(gamestate: &mut GameState);
+    fn counter_effect ( game_state: &mut gamestate::GameState); 
 }
 
 
@@ -24,14 +26,14 @@ impl Card {
     }
 
     pub fn display(&self) {
-        println!("Card: {:?} of {:?}", self.number, self.type_of_card);
+        println!("Card: {:?}, {:?}", self.number, self.type_of_card);
     }
 }
 
 
 impl CardEffect for Card {
-    fn apply_effect(&self, game_state: &mut gamestate::GameState) {
-             match self.number {
+    fn apply_effect(gamestate: &mut GameState) {
+            match gamestate.top_card.number {
             Number::Jump => {
                 println!("Jump card played!.");
                 // Implement logic to skip computer's turn
@@ -45,34 +47,7 @@ impl CardEffect for Card {
                 // Implement logic for computer to draw a card
             }
             Number::Ace => {
-                println!("Call the card you want to be placed next");
-                println!("1. Heart");
-                println!("2. Spade"); 
-                println!("3. Flower");
-                println!("4. Diamond");
-
-                let mut input = String::new();
-                std::io::stdin().read_line(&mut input).expect("Failed to read line");
-                let choice: u32 = input.trim().parse().expect("Please enter a number");
-
-                let card = match choice {
-                        1 => Card::new(self.number, Types::Heart),
-                        2 => Card::new(self.number, Types::Spade),
-                        3 => Card::new(self.number, Types::Flower),
-                        4 => Card::new(self.number, Types::Diamond),
-                        _ => {
-                            println!("Invalid choice, defaulting to Heart.");
-                            Card::new(self.number, Types::Heart)
-                        }
-                    };
-
-                if does_other_player_have_that_card(game_state, &card) {
-                      println!("Are you placing or picking")
-                } else {
-                      
-                }
-
-
+             println!("Ace effect");
 
             }
 
@@ -84,11 +59,11 @@ impl CardEffect for Card {
             }
 
             Number::Three => {
-                 counter_or_pick_two_or_three(game_state, self);
+                 //counter_or_pick_two_or_three(game_state, self);
             }
 
             Number::Two => {
-                 counter_or_pick_two_or_three(game_state, self);
+                 //counter_or_pick_two_or_three(game_state, self);
             }
             _ => {
                 // No special effect for other cards
@@ -99,8 +74,8 @@ impl CardEffect for Card {
 
 
     /// This fuction will 'respond' to the effects of the top card
-    fn counter_effect(&self, game_state: &mut gamestate::GameState) {
-             match self.number {
+    fn counter_effect(game_state: &mut gamestate::GameState) {
+             match game_state.top_card.number {
             Number::Jump => {
                 println!("Countering the jump card.");
 
