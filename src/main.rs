@@ -10,10 +10,10 @@ pub mod human;
 pub mod gamestate;
 pub mod player;
 
+pub use crate::cardmodule::{Card, Deck, CardEffect};
 pub use rand::seq::SliceRandom;
 pub use rand::thread_rng;
-pub use crate::cardmodule::{Card, Deck, CardEffect};
-use crate::gamestate::{GameState};
+use crate::{gamestate::GameState, player::can_finish};
 pub use gamestate::{ Number, Types };
 pub use player::Player;
 
@@ -23,10 +23,12 @@ fn main() {
      let mut game_state =  gamestate::GameState::new();
      cardmodule::print_top_card(&game_state);
      loop 
-     {         
+     {       
           human::player_turn(&mut game_state);
+           println!("Can human finish: {}", can_finish(&game_state.human_player));
           computer::computer_turn(&mut game_state);
           cardmodule::print_top_card(&game_state);
+          println!("Can computer finish: {}", can_finish(&game_state.computer_player));
          
 
      }

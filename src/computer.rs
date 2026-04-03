@@ -22,13 +22,16 @@ pub fn computer_turn(gamestate: &mut GameState) {
         assert!(!gamestate.computer_player.cards_in_hand.is_empty());
         println!("Computer placing");
         for i in 0..gamestate.computer_player.cards_in_hand.len() {
-           if (gamestate.computer_player.cards_in_hand[i].type_of_card == gamestate.top_card.type_of_card)||
-              (gamestate.computer_player.cards_in_hand[i].number == gamestate.top_card.number) {
-                   gamestate.top_card = gamestate.computer_player.cards_in_hand[i];
-                   gamestate.computer_player.cards_in_hand.pop();
-         } 
+            if gamestate.computer_player.cards_in_hand[i].type_of_card == gamestate.top_card.type_of_card
+                || gamestate.computer_player.cards_in_hand[i].number == gamestate.top_card.number
+            {
+                gamestate.top_card = gamestate.computer_player.cards_in_hand[i];
+                gamestate.computer_player.cards_in_hand.remove(i);
+                break; // stop after playing one card
+            }
         }
-    } else {
+    }
+    else {
         println!("Computer picking a card...");
         computer_picks_a_card(gamestate);
     }
@@ -36,7 +39,9 @@ pub fn computer_turn(gamestate: &mut GameState) {
 
 
 fn computer_can_place(gamestate: &GameState) -> bool {
-    assert!(!gamestate.computer_player.cards_in_hand.is_empty());
+    if !gamestate.computer_player.cards_in_hand.is_empty() {
+       todo!()
+    }
 
     gamestate
         .computer_player
