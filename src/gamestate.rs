@@ -47,7 +47,7 @@ impl GameState {
     }
     
 
-    pub fn check_win(game_state: &Self) -> Option<&str> {
+    pub fn check_winner(game_state: &Self) -> Option<&str> {
         if game_state.human_player.cards_in_hand.is_empty() {
             return Some("Player wins!");
         }

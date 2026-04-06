@@ -39,8 +39,8 @@ pub fn computer_turn(gamestate: &mut GameState) {
 
 
 fn computer_can_place(gamestate: &GameState) -> bool {
-    if !gamestate.computer_player.cards_in_hand.is_empty() {
-       todo!()
+    if gamestate.computer_player.cards_in_hand.is_empty() {
+       return false
     }
 
     gamestate

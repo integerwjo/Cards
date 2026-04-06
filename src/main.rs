@@ -25,7 +25,7 @@ fn main() {
      loop 
      {       
           human::player_turn(&mut game_state);
-           println!("Can human finish: {}", can_finish(&game_state.human_player));
+          println!("Can human finish: {}", can_finish(&game_state.human_player));
           computer::computer_turn(&mut game_state);
           cardmodule::print_top_card(&game_state);
           println!("Can computer finish: {}", can_finish(&game_state.computer_player));
