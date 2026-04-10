@@ -3,7 +3,7 @@ use super::{Card, cardmodule, Player};
 use crate::cardmodule::Deck;
 
 /// represents all the types of variants a card is
-#[derive(Clone, Debug, Copy, PartialEq)]
+#[derive(Clone, Debug, Copy, PartialEq, Hash, Eq)]
 pub enum Types {
     Heart,
     Spade,
