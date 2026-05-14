@@ -62,7 +62,7 @@ impl CardEffect for Card {
                  //counter_or_pick_two_or_three(game_state, self);
             }
 
-            Number::Two => {
+            Number::Two => {e
                  //counter_or_pick_two_or_three(game_state, self);
             }
             _ => {
