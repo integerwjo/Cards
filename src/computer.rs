@@ -1,68 +1,67 @@
-//! The computer functions are defined here
-//! 
-use super::{Card, GameState};
-use crate::Types;
-use crate::Number;
+//! Computer player logic
 
-/// Prints all cards assigned to the computer
-/// Should not be visible to the player (debug only)
-pub fn print_computer_cards(computer_cards: &Vec<Card>) {
+use super::{Card, GameState};
+
+/// Prints all cards assigned to the computer.
+/// Debug only — should not be visible to the player.
+pub fn print_computer_cards(cards: &[Card]) {
     println!("\nComputer's Cards:");
-    for card in computer_cards {
+
+    for card in cards {
         card.display();
     }
 }
 
+/// Executes the computer player's turn.
+pub fn computer_turn(game_state: &mut GameState) {
+    print_computer_cards(&game_state.computer_player.cards_in_hand);
 
-/// Dummy fn for computer move
-pub fn computer_turn(gamestate: &mut GameState) {
-    print_computer_cards(&gamestate.computer_player.cards_in_hand);
-    println!("Computers turn");
+    println!("Computer's turn");
 
-    if computer_can_place(&gamestate) {
-        assert!(!gamestate.computer_player.cards_in_hand.is_empty());
-        println!("Computer placing");
-        for i in 0..gamestate.computer_player.cards_in_hand.len() {
-            if gamestate.computer_player.cards_in_hand[i].type_of_card == gamestate.top_card.type_of_card
-                || gamestate.computer_player.cards_in_hand[i].number == gamestate.top_card.number
-            {
-                gamestate.top_card = gamestate.computer_player.cards_in_hand[i];
-                gamestate.computer_player.cards_in_hand.remove(i);
-                break; // stop after playing one card
-            }
+    match find_playable_card_index(game_state) {
+        Some(index) => {
+            println!("Computer placing");
+
+            let played_card = game_state
+                .computer_player
+                .cards_in_hand
+                .remove(index);
+
+            game_state.top_card = played_card;
         }
-    }
-    else {
-        println!("Computer picking a card...");
-        computer_picks_a_card(gamestate);
+        None => {
+            println!("Computer picking a card...");
+            computer_picks_a_card(game_state);
+        }
     }
 }
 
-
-fn computer_can_place(gamestate: &GameState) -> bool {
-    if gamestate.computer_player.cards_in_hand.is_empty() {
-       return false
-    }
-
-    gamestate
+/// Returns the index of the first playable card in hand.
+fn find_playable_card_index(game_state: &GameState) -> Option<usize> {
+    game_state
         .computer_player
         .cards_in_hand
         .iter()
-        .any(|card| {
-            card.type_of_card == gamestate.top_card.type_of_card
-                || card.number == gamestate.top_card.number
-        })
+        .position(|card| is_playable(card, &game_state.top_card))
 }
 
+/// Determines whether a card can be played on top of the current card.
+fn is_playable(card: &Card, top_card: &Card) -> bool {
+    card.type_of_card == top_card.type_of_card
+        || card.number == top_card.number
+}
 
+/// Draws one card from the deck for the computer player.
 pub fn computer_picks_a_card(game_state: &mut GameState) {
     match game_state.deck.cards.pop() {
         Some(card) => {
-            println!("Player picked a card:");
+            println!("Computer picked a card:");
             card.display();
+
             game_state.computer_player.cards_in_hand.push(card);
+
             print_computer_cards(&game_state.computer_player.cards_in_hand);
-        },
+        }
         None => {
             println!("No more cards to pick!");
         }
