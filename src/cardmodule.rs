@@ -61,17 +61,11 @@ impl CardEffect for Card {
             Number::Three => {
                  //counter_or_pick_two_or_three(game_state, self);
             }
-
-            Number::Two => {e
-                 //counter_or_pick_two_or_three(game_state, self);
-            }
             _ => {
                 // No special effect for other cards
             }
-
-        }
     }
-
+}
 
     /// This fuction will 'respond' to the effects of the top card
     fn counter_effect(game_state: &mut gamestate::GameState) {

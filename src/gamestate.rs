@@ -1,5 +1,5 @@
 //! The state in which the game is in, throughout
-use super::{Card, cardmodule, Player};
+use super::{cardmodule, Card, Player};
 use crate::cardmodule::Deck;
 
 /// represents all the types of variants a card is
@@ -14,16 +14,26 @@ pub enum Types {
 /// This doesn't represent a 'real' number
 #[derive(Clone, Debug, Copy, PartialEq)]
 pub enum Number {
-    Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten,
-    Jump, Question, Kickback,
+    Ace,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
+    Jump,
+    Question,
+    Kickback,
 }
 
-pub struct  GameState{
+pub struct GameState {
     pub human_player: Player,
     pub computer_player: Player,
     pub top_card: Card,
     pub deck: Deck,
-
 }
 
 impl GameState {
@@ -45,7 +55,6 @@ impl GameState {
             deck: cards,
         }
     }
-    
 
     pub fn check_winner(game_state: &Self) -> Option<&str> {
         if game_state.human_player.cards_in_hand.is_empty() {
@@ -58,47 +67,41 @@ impl GameState {
 
         None
     }
-   
-    pub fn current_player(gamestate: &mut Self) -> &Player{
+
+    pub fn current_player(gamestate: &mut Self) -> &Player {
         if gamestate.human_player.is_turn_to_play {
             &gamestate.human_player
         } else {
             &gamestate.computer_player
         }
-    }  
+    }
 }
-
 
 pub fn place_initial_top_card(deck: &mut Deck) -> Card {
-        deck.cards.pop().unwrap()
+    deck.cards.pop().unwrap()
 }
-
-
 
 pub fn assign_cards(deck: &mut Deck) -> Vec<Card> {
-        let mut cards_in_hand = Vec::new();
-        for _ in 0..4 {
-            cards_in_hand.push(deck.cards.pop().unwrap());
-        }
-        cards_in_hand
+    let mut cards_in_hand = Vec::new();
+    for _ in 0..4 {
+        cards_in_hand.push(deck.cards.pop().unwrap());
+    }
+    cards_in_hand
 }
 
-
- pub fn pick(no_of_cards_to_pick: usize, gamestate: &mut GameState) {
-            let current_player: &mut Player = {
-                    if gamestate.human_player.is_turn_to_play {
-                        &mut gamestate.human_player
-                    } else {
-                       &mut gamestate.computer_player
-                }
-            };
-            assert!(no_of_cards_to_pick > current_player.cards_in_hand.len());
-
-            for _ in 0..no_of_cards_to_pick {
-                current_player.cards_in_hand.push(gamestate.deck.cards.pop().unwrap())
-            }
-
+pub fn pick(no_of_cards_to_pick: usize, gamestate: &mut GameState) {
+    let current_player: &mut Player = {
+        if gamestate.human_player.is_turn_to_play {
+            &mut gamestate.human_player
+        } else {
+            &mut gamestate.computer_player
         }
+    };
+    assert!(no_of_cards_to_pick > current_player.cards_in_hand.len());
 
-
-
+    for _ in 0..no_of_cards_to_pick {
+        current_player
+            .cards_in_hand
+            .push(gamestate.deck.cards.pop().unwrap())
+    }
+}

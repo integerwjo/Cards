@@ -10,6 +10,8 @@ pub mod gamestate;
 pub mod human;
 pub mod player;
 
+
+
 pub use crate::cardmodule::{Card, CardEffect, Deck};
 pub use gamestate::{GameState, Number, Types};
 pub use player::Player;
@@ -25,10 +27,7 @@ fn main() {
 
     loop {
         human::player_turn(&mut game_state);
-        println!(
-            "Can human finish: {}",
-            game_state.human_player.can_finish()
-        );
+        println!("Can human finish: {}", game_state.human_player.can_finish()); e
 
         computer::computer_turn(&mut game_state);
 
@@ -40,5 +39,3 @@ fn main() {
         );
     }
 }
-
-
