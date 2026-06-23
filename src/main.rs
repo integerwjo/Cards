@@ -27,7 +27,7 @@ fn main() {
 
     loop {
         human::player_turn(&mut game_state);
-        println!("Can human finish: {}", game_state.human_player.can_finish()); e
+        println!("Can human finish: {}", game_state.human_player.can_finish());  
 
         computer::computer_turn(&mut game_state);
 
@@ -35,7 +35,7 @@ fn main() {
 
         println!(
             "Can computer finish: {}",
-            game_state.computer_player.can_finish()
+            game_state.computer_player.can_finish();
         );
     }
 }

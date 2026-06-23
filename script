@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+name='integer'
+number=12
+system=$(uname)
+
+echo "hello $name (your number is $number)"
+echo "Your system is $system"
